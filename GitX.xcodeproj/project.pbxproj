@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		7519308911F79CE50038715F /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7519309C11F79D3C0038715F /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				7519308D11F79CF40038715F /* PBXTargetDependency */,
+				7519308F11F79CF70038715F /* PBXTargetDependency */,
+				7519309111F79CFA0038715F /* PBXTargetDependency */,
+				7519309311F79CFC0038715F /* PBXTargetDependency */,
+				7519309511F79D000038715F /* PBXTargetDependency */,
+				7519309711F79D030038715F /* PBXTargetDependency */,
+				7519309911F79D050038715F /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
 		F56439F70F792B2100A579C2 /* Generate PList Prefix */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = F56439FD0F792B3600A579C2 /* Build configuration list for PBXAggregateTarget "Generate PList Prefix" */;
@@ -31,6 +48,11 @@
 		47DBDBCA0E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DBDBC90E95016F00671A1E /* PBNSURLPathUserDefaultsTransfomer.m */; };
 		551BF11E112F376C00265053 /* gitx_askpasswd_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 551BF11D112F376C00265053 /* gitx_askpasswd_main.m */; };
 		551BF176112F3F4B00265053 /* gitx_askpasswd in Resources */ = {isa = PBXBuildFile; fileRef = 551BF111112F371800265053 /* gitx_askpasswd */; };
+		751930A811F79F450038715F /* PBGitHistoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = D8295D291130A1DC00C838E8 /* PBGitHistoryList.m */; };
+		751930AC11F79F580038715F /* PBGitHistoryGrapher.m in Sources */ = {isa = PBXBuildFile; fileRef = D8295DDF1130E43900C838E8 /* PBGitHistoryGrapher.m */; };
+		751930AE11F79F6F0038715F /* PBGitSHA.m in Sources */ = {isa = PBXBuildFile; fileRef = D8FBCF18115FA20C0098676A /* PBGitSHA.m */; };
+		751930B111F79F970038715F /* PBGitDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CB42C10EAB7B2200530609 /* PBGitDefaults.m */; };
+		751930B511F79FD00038715F /* PBRemoteProgressSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = D8083A42111E045D00337480 /* PBRemoteProgressSheet.m */; };
 		770B37ED0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 770B37EC0679A11B001EADE2 /* GitTest_DataModel.xcdatamodel */; };
 		77C8280E06725ACE000B614F /* ApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* ApplicationController.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -192,6 +214,55 @@
 			proxyType = 1;
 			remoteGlobalIDString = 551BF110112F371800265053;
 			remoteInfo = gitx_askpasswd;
+		};
+		7519308C11F79CF40038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 551BF110112F371800265053 /* gitx_askpasswd */;
+			remoteInfo = gitx_askpasswd;
+		};
+		7519308E11F79CF70038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8022B1411DFCE7F003C21F6 /* libgit2 */;
+			remoteInfo = libgit2;
+		};
+		7519309011F79CFA0038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F567CC38106E6B910059BB9D /* GitXTesting */;
+			remoteInfo = GitXTesting;
+		};
+		7519309211F79CFC0038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F56439F70F792B2100A579C2 /* Generate PList Prefix */;
+			remoteInfo = "Generate PList Prefix";
+		};
+		7519309411F79D000038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5886A0F0ED5D33D0066E74C /* SpeedTest */;
+			remoteInfo = SpeedTest;
+		};
+		7519309611F79D030038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 913D5E480E55644600CECEA2 /* cli tool */;
+			remoteInfo = "cli tool";
+		};
+		7519309811F79D050038715F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090 /* GitX */;
+			remoteInfo = GitX;
 		};
 		913D5E590E5564F400CECEA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1076,6 +1147,7 @@
 				F567CC38106E6B910059BB9D /* GitXTesting */,
 				D8022B1411DFCE7F003C21F6 /* libgit2 */,
 				551BF110112F371800265053 /* gitx_askpasswd */,
+				7519308911F79CE50038715F /* All */,
 			);
 		};
 /* End PBXProject section */
@@ -1307,6 +1379,11 @@
 				F5886A170ED5D34F0066E74C /* PBGitRepository.m in Sources */,
 				F5886A190ED5D3560066E74C /* PBGitRef.m in Sources */,
 				F5886A160ED5D3490066E74C /* speedtest.m in Sources */,
+				751930A811F79F450038715F /* PBGitHistoryList.m in Sources */,
+				751930AC11F79F580038715F /* PBGitHistoryGrapher.m in Sources */,
+				751930AE11F79F6F0038715F /* PBGitSHA.m in Sources */,
+				751930B111F79F970038715F /* PBGitDefaults.m in Sources */,
+				751930B511F79FD00038715F /* PBRemoteProgressSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,6 +1394,41 @@
 			isa = PBXTargetDependency;
 			target = 551BF110112F371800265053 /* gitx_askpasswd */;
 			targetProxy = 551BF174112F3F3500265053 /* PBXContainerItemProxy */;
+		};
+		7519308D11F79CF40038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 551BF110112F371800265053 /* gitx_askpasswd */;
+			targetProxy = 7519308C11F79CF40038715F /* PBXContainerItemProxy */;
+		};
+		7519308F11F79CF70038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8022B1411DFCE7F003C21F6 /* libgit2 */;
+			targetProxy = 7519308E11F79CF70038715F /* PBXContainerItemProxy */;
+		};
+		7519309111F79CFA0038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F567CC38106E6B910059BB9D /* GitXTesting */;
+			targetProxy = 7519309011F79CFA0038715F /* PBXContainerItemProxy */;
+		};
+		7519309311F79CFC0038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F56439F70F792B2100A579C2 /* Generate PList Prefix */;
+			targetProxy = 7519309211F79CFC0038715F /* PBXContainerItemProxy */;
+		};
+		7519309511F79D000038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F5886A0F0ED5D33D0066E74C /* SpeedTest */;
+			targetProxy = 7519309411F79D000038715F /* PBXContainerItemProxy */;
+		};
+		7519309711F79D030038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 913D5E480E55644600CECEA2 /* cli tool */;
+			targetProxy = 7519309611F79D030038715F /* PBXContainerItemProxy */;
+		};
+		7519309911F79D050038715F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* GitX */;
+			targetProxy = 7519309811F79D050038715F /* PBXContainerItemProxy */;
 		};
 		913D5E5A0E5564F400CECEA2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1482,7 +1594,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREPROCESS = YES;
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Debug;
 		};
@@ -1569,6 +1680,27 @@
 				PRODUCT_NAME = gitx_askpasswd;
 			};
 			name = Install;
+		};
+		7519308A11F79CE50038715F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = All;
+			};
+			name = Debug;
+		};
+		7519308B11F79CE50038715F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = All;
+				ZERO_LINK = NO;
+			};
+			name = Release;
 		};
 		913D5E4B0E55644600CECEA2 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1808,6 +1940,15 @@
 				551BF113112F371800265053 /* Debug */,
 				551BF114112F371800265053 /* Release */,
 				551BF115112F371800265053 /* Install */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7519309C11F79D3C0038715F /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7519308A11F79CE50038715F /* Debug */,
+				7519308B11F79CE50038715F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
