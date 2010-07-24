@@ -219,49 +219,49 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 551BF110112F371800265053 /* gitx_askpasswd */;
+			remoteGlobalIDString = 551BF110112F371800265053;
 			remoteInfo = gitx_askpasswd;
 		};
 		7519308E11F79CF70038715F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D8022B1411DFCE7F003C21F6 /* libgit2 */;
+			remoteGlobalIDString = D8022B1411DFCE7F003C21F6;
 			remoteInfo = libgit2;
 		};
 		7519309011F79CFA0038715F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F567CC38106E6B910059BB9D /* GitXTesting */;
+			remoteGlobalIDString = F567CC38106E6B910059BB9D;
 			remoteInfo = GitXTesting;
 		};
 		7519309211F79CFC0038715F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F56439F70F792B2100A579C2 /* Generate PList Prefix */;
+			remoteGlobalIDString = F56439F70F792B2100A579C2;
 			remoteInfo = "Generate PList Prefix";
 		};
 		7519309411F79D000038715F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F5886A0F0ED5D33D0066E74C /* SpeedTest */;
+			remoteGlobalIDString = F5886A0F0ED5D33D0066E74C;
 			remoteInfo = SpeedTest;
 		};
 		7519309611F79D030038715F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 913D5E480E55644600CECEA2 /* cli tool */;
+			remoteGlobalIDString = 913D5E480E55644600CECEA2;
 			remoteInfo = "cli tool";
 		};
 		7519309811F79D050038715F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D1107260486CEB800E47090 /* GitX */;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = GitX;
 		};
 		913D5E590E5564F400CECEA2 /* PBXContainerItemProxy */ = {
