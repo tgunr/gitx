@@ -63,7 +63,7 @@
 								<int key="NSColorSpace">6</int>
 								<string key="NSCatalogName">System</string>
 								<string key="NSColorName">controlColor</string>
-								<object class="NSColor" key="NSColor" id="573508227">
+								<object class="NSColor" key="NSColor" id="599328902">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 								</object>
@@ -113,11 +113,11 @@
 							<reference key="NSSupport" ref="734450335"/>
 							<reference key="NSControlView" ref="25030403"/>
 							<bool key="NSDrawsBackground">YES</bool>
-							<object class="NSColor" key="NSBackgroundColor" id="359452718">
+							<object class="NSColor" key="NSBackgroundColor" id="994966102">
 								<int key="NSColorSpace">6</int>
 								<string key="NSCatalogName">System</string>
 								<string key="NSColorName">textBackgroundColor</string>
-								<object class="NSColor" key="NSColor" id="137654203">
+								<object class="NSColor" key="NSColor" id="198709344">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
 								</object>
@@ -585,36 +585,36 @@
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSTextField" id="943194693">
+					<object class="NSTextField" id="274489005">
 						<reference key="NSNextResponder" ref="263788152"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{37, 29}, {96, 17}}</string>
 						<reference key="NSSuperview" ref="263788152"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="556974012">
+						<object class="NSTextFieldCell" key="NSCell" id="93707251">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents">Gravatar Style:</string>
 							<reference key="NSSupport" ref="734450335"/>
-							<reference key="NSControlView" ref="943194693"/>
+							<reference key="NSControlView" ref="274489005"/>
 							<reference key="NSBackgroundColor" ref="124675276"/>
 							<reference key="NSTextColor" ref="716218002"/>
 						</object>
 					</object>
-					<object class="NSComboBox" id="193285576">
+					<object class="NSComboBox" id="779508216">
 						<reference key="NSNextResponder" ref="263788152"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{137, 25}, {120, 26}}</string>
 						<reference key="NSSuperview" ref="263788152"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSComboBoxCell" key="NSCell" id="987804740">
+						<object class="NSComboBoxCell" key="NSCell" id="899914561">
 							<int key="NSCellFlags">343014976</int>
 							<int key="NSCellFlags2">272630784</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="734450335"/>
-							<reference key="NSControlView" ref="193285576"/>
+							<reference key="NSControlView" ref="779508216"/>
 							<bool key="NSDrawsBackground">YES</bool>
-							<reference key="NSBackgroundColor" ref="359452718"/>
+							<reference key="NSBackgroundColor" ref="994966102"/>
 							<reference key="NSTextColor" ref="716218002"/>
 							<int key="NSVisibleItemCount">5</int>
 							<bool key="NSHasVerticalScroller">YES</bool>
@@ -625,9 +625,10 @@
 								<string>retro</string>
 								<string>wavatar</string>
 								<string>monsterid</string>
+								<string>unicornify</string>
 							</object>
-							<reference key="NSDelegate" ref="193285576"/>
-							<object class="NSComboTableView" key="NSTableView" id="439380946">
+							<reference key="NSDelegate" ref="779508216"/>
+							<object class="NSComboTableView" key="NSTableView" id="706629985">
 								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{13, 21}</string>
@@ -654,30 +655,30 @@
 												<int key="NSColorSpace">3</int>
 												<bytes key="NSWhite">MC4zMzMzMzI5ODU2AA</bytes>
 											</object>
-											<reference key="NSTextColor" ref="137654203"/>
+											<reference key="NSTextColor" ref="198709344"/>
 										</object>
 										<object class="NSTextFieldCell" key="NSDataCell">
 											<int key="NSCellFlags">338820672</int>
 											<int key="NSCellFlags2">1024</int>
 											<reference key="NSSupport" ref="734450335"/>
-											<reference key="NSControlView" ref="439380946"/>
+											<reference key="NSControlView" ref="706629985"/>
 											<bool key="NSDrawsBackground">YES</bool>
-											<object class="NSColor" key="NSBackgroundColor" id="671100617">
+											<object class="NSColor" key="NSBackgroundColor" id="68160214">
 												<int key="NSColorSpace">6</int>
 												<string key="NSCatalogName">System</string>
 												<string key="NSColorName">controlBackgroundColor</string>
-												<reference key="NSColor" ref="573508227"/>
+												<reference key="NSColor" ref="599328902"/>
 											</object>
 											<reference key="NSTextColor" ref="716218002"/>
 										</object>
 										<int key="NSResizingMask">3</int>
 										<bool key="NSIsResizeable">YES</bool>
-										<reference key="NSTableView" ref="439380946"/>
+										<reference key="NSTableView" ref="706629985"/>
 									</object>
 								</object>
 								<double key="NSIntercellSpacingWidth">3</double>
 								<double key="NSIntercellSpacingHeight">2</double>
-								<reference key="NSBackgroundColor" ref="671100617"/>
+								<reference key="NSBackgroundColor" ref="68160214"/>
 								<object class="NSColor" key="NSGridColor">
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
@@ -690,9 +691,9 @@
 								<double key="NSRowHeight">19</double>
 								<string key="NSAction">tableViewAction:</string>
 								<int key="NSTvFlags">-765427712</int>
-								<reference key="NSDelegate" ref="987804740"/>
-								<reference key="NSDataSource" ref="987804740"/>
-								<reference key="NSTarget" ref="987804740"/>
+								<reference key="NSDelegate" ref="899914561"/>
+								<reference key="NSDataSource" ref="899914561"/>
+								<reference key="NSTarget" ref="899914561"/>
 								<int key="NSColumnAutoresizingStyle">1</int>
 								<int key="NSDraggingSourceMaskForLocal">15</int>
 								<int key="NSDraggingSourceMaskForNonLocal">0</int>
@@ -1204,10 +1205,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: values.PBGravatarStyle</string>
-						<reference key="source" ref="193285576"/>
+						<reference key="source" ref="779508216"/>
 						<reference key="destination" ref="557723770"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="193285576"/>
+							<reference key="NSSource" ref="779508216"/>
 							<reference key="NSDestination" ref="557723770"/>
 							<string key="NSLabel">value: values.PBGravatarStyle</string>
 							<string key="NSBinding">value</string>
@@ -1220,10 +1221,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: values.PBEnableGravatar</string>
-						<reference key="source" ref="193285576"/>
+						<reference key="source" ref="779508216"/>
 						<reference key="destination" ref="557723770"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="193285576"/>
+							<reference key="NSSource" ref="779508216"/>
 							<reference key="NSDestination" ref="557723770"/>
 							<string key="NSLabel">enabled: values.PBEnableGravatar</string>
 							<string key="NSBinding">enabled</string>
@@ -1236,10 +1237,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: values.PBEnableGravatar</string>
-						<reference key="source" ref="943194693"/>
+						<reference key="source" ref="274489005"/>
 						<reference key="destination" ref="557723770"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="943194693"/>
+							<reference key="NSSource" ref="274489005"/>
 							<reference key="NSDestination" ref="557723770"/>
 							<string key="NSLabel">enabled: values.PBEnableGravatar</string>
 							<string key="NSBinding">enabled</string>
@@ -1541,8 +1542,8 @@
 							<reference ref="933582906"/>
 							<reference ref="485413225"/>
 							<reference ref="766070942"/>
-							<reference ref="193285576"/>
-							<reference ref="943194693"/>
+							<reference ref="779508216"/>
+							<reference ref="274489005"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Integration</string>
@@ -1717,31 +1718,31 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">145</int>
-						<reference key="object" ref="193285576"/>
+						<reference key="object" ref="779508216"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="987804740"/>
+							<reference ref="899914561"/>
 						</object>
 						<reference key="parent" ref="263788152"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">146</int>
-						<reference key="object" ref="987804740"/>
-						<reference key="parent" ref="193285576"/>
+						<reference key="object" ref="899914561"/>
+						<reference key="parent" ref="779508216"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">155</int>
-						<reference key="object" ref="943194693"/>
+						<reference key="object" ref="274489005"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="556974012"/>
+							<reference ref="93707251"/>
 						</object>
 						<reference key="parent" ref="263788152"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">156</int>
-						<reference key="object" ref="556974012"/>
-						<reference key="parent" ref="943194693"/>
+						<reference key="object" ref="93707251"/>
+						<reference key="parent" ref="274489005"/>
 					</object>
 				</object>
 			</object>
