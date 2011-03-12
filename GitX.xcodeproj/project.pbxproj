@@ -60,6 +60,9 @@
 		31460CD4124185BA00B90AED /* ReadMe.txt in Resources */ = {isa = PBXBuildFile; fileRef = 31460CAF124185BA00B90AED /* ReadMe.txt */; };
 		31460CD5124185BA00B90AED /* Source Code License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 31460CB0124185BA00B90AED /* Source Code License.rtf */; };
 		31460CD6124185BA00B90AED /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 31460CB1124185BA00B90AED /* TODO */; };
+		316E7202131EE9C600AFBB36 /* list_Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E7200131EE9C600AFBB36 /* list_Template.png */; };
+		316E7203131EE9C600AFBB36 /* sidebar_Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 316E7201131EE9C600AFBB36 /* sidebar_Template.png */; };
+		31DAA7ED1317737100463846 /* gitx_l_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 31DAA7EC1317737100463846 /* gitx_l_pub.pem */; };
 		3BC07F4C0ED5A5C5009A7768 /* HistoryViewTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BC07F4A0ED5A5C5009A7768 /* HistoryViewTemplate.png */; };
 		3BC07F4D0ED5A5C5009A7768 /* CommitViewTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BC07F4B0ED5A5C5009A7768 /* CommitViewTemplate.png */; };
 		47DBDB580E94EDE700671A1E /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47DBDB570E94EDE700671A1E /* DBPrefsWindowController.m */; };
@@ -346,6 +349,9 @@
 		31460CAF124185BA00B90AED /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		31460CB0124185BA00B90AED /* Source Code License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Source Code License.rtf"; sourceTree = "<group>"; };
 		31460CB1124185BA00B90AED /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		316E7200131EE9C600AFBB36 /* list_Template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list_Template.png; sourceTree = "<group>"; };
+		316E7201131EE9C600AFBB36 /* sidebar_Template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebar_Template.png; sourceTree = "<group>"; };
+		31DAA7EC1317737100463846 /* gitx_l_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gitx_l_pub.pem; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* GitX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitX_Prefix.pch; sourceTree = "<group>"; };
 		3BC07F4A0ED5A5C5009A7768 /* HistoryViewTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HistoryViewTemplate.png; path = Images/HistoryViewTemplate.png; sourceTree = "<group>"; };
 		3BC07F4B0ED5A5C5009A7768 /* CommitViewTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CommitViewTemplate.png; path = Images/CommitViewTemplate.png; sourceTree = "<group>"; };
@@ -811,10 +817,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				316E7200131EE9C600AFBB36 /* list_Template.png */,
+				316E7201131EE9C600AFBB36 /* sidebar_Template.png */,
 				21025C1012947AB200D87200 /* sourceListAction.png */,
 				21025C1112947AB200D87200 /* sourceListActionOver.png */,
 				02B41A5F123E307F00DFC531 /* PBCommitHookFailedSheet.xib */,
 				F5F7D0641062E7940072C81C /* UpdateKey.pem */,
+				31DAA7EC1317737100463846 /* gitx_l_pub.pem */,
 				F50A41130EBB872D00208746 /* Widgets */,
 				47DBDB920E94F47200671A1E /* Preference Icons */,
 				D26DC6440E782C9000C777B2 /* gitx.icns */,
@@ -1335,6 +1344,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 26FC0A880875C7B200E6366F /* Build configuration list for PBXProject "GitX" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1424,6 +1434,9 @@
 				212A49AB12A31328009DAFAD /* deleted_file.png in Resources */,
 				212A49AD12A31350009DAFAD /* ignored_file.png in Resources */,
 				212A49AF12A3135C009DAFAD /* modified_file.png in Resources */,
+				31DAA7ED1317737100463846 /* gitx_l_pub.pem in Resources */,
+				316E7202131EE9C600AFBB36 /* list_Template.png in Resources */,
+				316E7203131EE9C600AFBB36 /* sidebar_Template.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1779,6 +1792,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = libgit2;
 				PRODUCT_NAME = GitX;
+				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -1807,6 +1821,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = libgit2;
 				PRODUCT_NAME = GitX;
+				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1822,9 +1837,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -1838,9 +1854,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREFIX_HEADER = $PROJECT_TEMP_DIR/revision;
 				INFOPLIST_PREPROCESS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};
@@ -1876,7 +1893,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1941,6 +1958,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx;
+				SDKROOT = "";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -1966,6 +1984,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = gitx;
+				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1977,6 +1996,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = libgit2;
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -1987,6 +2007,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = libgit2;
+				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1998,6 +2019,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Generate PList Prefix";
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -2009,6 +2031,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = "Generate PList Prefix";
+				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2047,6 +2070,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GitXTesting;
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -2079,6 +2103,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = GitXTesting;
+				SDKROOT = "";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2110,7 +2135,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SpeedTest;
-				SDKROOT = macosx10.5;
+				SDKROOT = "";
 			};
 			name = Debug;
 		};

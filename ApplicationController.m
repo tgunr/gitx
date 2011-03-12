@@ -133,6 +133,9 @@
 	if (gitversion)
 		[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:gitversion, @"Version", nil]];
 
+	[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:@"GitX (L)", @"ApplicationName", nil]];
+	[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:@"(c) Pieter de Bie,2008\n(c) German Laullon,2011\nAnd more...", @"Copyright", nil]];
+
 	#ifdef DEBUG_BUILD
 		[dict addEntriesFromDictionary:[[NSDictionary alloc] initWithObjectsAndKeys:@"GitX (DEBUG)", @"ApplicationName", nil]];
 	#endif
@@ -242,7 +245,7 @@
     fileManager = [NSFileManager defaultManager];
     applicationSupportFolder = [self applicationSupportFolder];
     if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
-        [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
+        [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
     }
     
     url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"GitTest.xml"]];

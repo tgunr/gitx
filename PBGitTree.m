@@ -15,6 +15,55 @@
 @implementation PBGitTree
 
 @synthesize sha, path, repository, leaf, parent;
+@synthesize filterPredicate;
+@synthesize filteredChildren;
+
+#pragma mark -
+#pragma mark get/set
+
+- (NSArray *) filteredChildren {
+	if (!filteredChildren) {
+		filteredChildren = [[NSMutableArray alloc] init];
+		[filteredChildren addObjectsFromArray:self.children];
+	}
+	return filteredChildren;
+}
+
+- (void) setFilterPredicate:(NSPredicate *) newPredicate {
+	if (newPredicate != filterPredicate) {
+		[filterPredicate release];
+		filterPredicate = [newPredicate retain];
+		
+		if (leaf) {
+			return;
+		}
+		
+		// initiate filtering
+		[filteredChildren removeAllObjects];
+		filteredChildren = [[NSMutableArray alloc] init];
+		
+		if (filterPredicate == nil) {
+			[filteredChildren addObjectsFromArray:self.children];
+		}
+
+		for (id item in self.children) {
+			[item setFilterPredicate:filterPredicate];
+			if (filterPredicate) {
+				if ([item leaf]) {
+					if ([filterPredicate evaluateWithObject:item]) {
+						[filteredChildren addObject:item];
+					}
+				} else {
+					if ([[item filteredChildren] count] > 0) {
+						[filteredChildren addObject:item];
+					}
+				}
+			}
+		}
+	}
+}
+
+#pragma mark -
 
 + (PBGitTree*) rootForCommit:(id) commit
 {
@@ -40,6 +89,7 @@
 
 - init
 {
+	filteredChildren = nil;
 	children = nil;
 	localFileName = nil;
 	leaf = YES;
@@ -61,16 +111,6 @@
 			return YES;
 	}
 	return NO;
-}
-
-- (BOOL)hasBinaryHeader:(NSString*)contents
-{
-	if (!contents)
-		return NO;
-
-	return [contents rangeOfString:@"\0"
-						   options:0
-							 range:NSMakeRange(0, ([contents length] >= 8000) ? 7999 : [contents length])].location != NSNotFound;
 }
 
 - (BOOL)hasBinaryAttributes
@@ -181,7 +221,7 @@
 		}
 		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"diff", sha, des,[self fullPath], nil]];
 		if ([res length]==0) {
-			NSLog(@"--%d",[res length]);
+			NSLog(@"--%@",[res length]);
 			if (anError != NULL) {
 				*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"No Diff",NSLocalizedDescriptionKey,nil]];
 			}
@@ -246,7 +286,7 @@
 		NSData* data = [handle readDataToEndOfFile];
 		[data writeToFile:newName atomically:YES];
 	} else { // Directory
-		[[NSFileManager defaultManager] createDirectoryAtPath:newName attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:newName withIntermediateDirectories:YES attributes:nil error:nil];
 		for (PBGitTree* child in [self children])
 			[child saveToFolder: newName];
 	}
@@ -333,7 +373,7 @@
 - (void) finalize
 {
 	if (localFileName)
-		[[NSFileManager defaultManager] removeFileAtPath:localFileName handler:nil];
+		[[NSFileManager defaultManager] removeItemAtPath:localFileName error:nil];
 	[super finalize];
 }
 @end
