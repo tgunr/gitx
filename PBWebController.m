@@ -145,6 +145,11 @@
 		return YES;
 }
 
+- gravatarStyle:(NSString *)ignored
+{
+    return [PBGitDefaults gravatarStyle];
+}
+
 #pragma mark Using async function from JS
 
 - (void) runCommand:(WebScriptObject *)arguments inRepository:(PBGitRepository *)repo callBack:(WebScriptObject *)callBack

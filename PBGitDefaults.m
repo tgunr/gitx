@@ -14,6 +14,7 @@
 #define kCommitMessageViewHasVerticalLine @"PBCommitMessageViewHasVerticalLine"
 #define kEnableGist @"PBEnableGist"
 #define kEnableGravatar @"PBEnableGravatar"
+#define kGravatarStyle @"PBGravatarStyle"
 #define kConfirmPublicGists @"PBConfirmPublicGists"
 #define kPublicGist @"PBGistPublic"
 #define kShowWhitespaceDifferences @"PBShowWhitespaceDifferences"
@@ -78,6 +79,11 @@
 + (BOOL) isGravatarEnabled
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kEnableGravatar];
+}
+
++ (NSString *) gravatarStyle
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:kGravatarStyle];
 }
 
 + (BOOL) confirmPublicGists
