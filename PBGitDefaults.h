@@ -15,6 +15,7 @@
 + (BOOL) commitMessageViewHasVerticalLine;
 + (BOOL) isGistEnabled;
 + (BOOL) isGravatarEnabled;
++ (NSString *) gravatarStyle;
 + (BOOL) confirmPublicGists;
 + (BOOL) isGistPublic;
 + (BOOL)showWhitespaceDifferences;

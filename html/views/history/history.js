@@ -128,19 +128,28 @@ var gistie = function() {
 	}
 }
 
+var gravatarStyle = function () {
+    return Controller.gravatarStyle_() || "wavatar";
+}
+
+var gravatarUrl = function (style, hash) {
+    if (style == "unicornify") {
+        return "http://unicornify.appspot.com/avatar/"+hash+"?s=60";
+    }
+    return "http://www.gravatar.com/avatar/"+hash+"?d="+style+"&s=60";
+}
+
 var setGravatar = function(email, image) {
 	if(Controller && !Controller.isFeatureEnabled_("gravatar")) {
 		image.src = "";
 		return;
 	}
-
+    var d = gravatarStyle();
 	if (!email) {
-		image.src = "http://www.gravatar.com/avatar/?d=wavatar&s=60";
+		image.src = gravatarUrl(d,"");
 		return;
 	}
-
-	image.src = "http://www.gravatar.com/avatar/" +
-		hex_md5(email.toLowerCase().replace(/ /g, "")) + "?d=wavatar&s=60";
+	image.src = gravatarUrl(d,hex_md5(email.toLowerCase().replace(/ /g, "")));
 }
 
 var selectCommit = function(a) {
@@ -294,6 +303,10 @@ var enableFeatures = function()
 	enableFeature("gist", $("gist"))
 	enableFeature("gravatar", $("author_gravatar").parentNode)
 	enableFeature("gravatar", $("committer_gravatar").parentNode)
+	if(Controller && Controller.isFeatureEnabled_("gravatar")) {
+        setGravatar(commit.author_email, $("author_gravatar"));
+		setGravatar(commit.committer_email, $("committer_gravatar"));
+    }
 }
 
 var loadCommitDetails = function(data)
