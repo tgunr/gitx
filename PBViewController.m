@@ -19,7 +19,7 @@
 {
 	NSString *nibName = [[[self class] description] stringByReplacingOccurrencesOfString:@"Controller"
 																			  withString:@"View"];
-	if(self = [self initWithNibName:nibName bundle:nil]) {
+	if((self = [self initWithNibName:nibName bundle:nil])) {
 		repository = theRepository;
 		superController = controller;
 	}
@@ -44,13 +44,14 @@
 	return nil;
 }
 
-- (IBAction) refresh: sender
-{
-}
-
 // The next methods should be implemented in the subclass if necessary
 - (void)updateView
 {
+}
+
+- (IBAction) refresh:(id)sender
+{
+	return;
 }
 
 - (void)viewLoaded

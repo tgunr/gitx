@@ -12,6 +12,10 @@
 #import "PBGitConfig.h"
 #import "PBGitRefish.h"
 
+#import "PBStashController.h"
+#import "PBGitResetController.h"
+#import "PBSubmoduleController.h"
+
 extern NSString* PBGitRepositoryErrorDomain;
 typedef enum branchFilterTypes {
 	kGitXAllBranchesFilter = 0,
@@ -54,7 +58,14 @@ static NSString * PBStringFromBranchFilterType(PBGitXBranchFilterType type) {
   PBGitRepositoryWatcher *watcher;
 	PBGitRevSpecifier *_headRef; // Caching
 	PBGitSHA* _headSha;
+	
+	PBStashController *stashController;
+	PBSubmoduleController *submoduleController;
+	PBGitResetController *resetController;
 }
+@property (nonatomic, retain, readonly) PBStashController *stashController;
+@property (nonatomic, retain, readonly) PBSubmoduleController *submoduleController;
+@property (nonatomic, retain, readonly) PBGitResetController *resetController;
 
 - (void) cloneRepositoryToPath:(NSString *)path bare:(BOOL)isBare;
 - (void) beginAddRemote:(NSString *)remoteName forURL:(NSString *)remoteURL;
@@ -70,6 +81,12 @@ static NSString * PBStringFromBranchFilterType(PBGitXBranchFilterType type) {
 - (BOOL) createTag:(NSString *)tagName message:(NSString *)message atRefish:(id <PBGitRefish>)commitSHA;
 - (BOOL) deleteRemote:(PBGitRef *)ref;
 - (BOOL) deleteRef:(PBGitRef *)ref;
+
+- (BOOL) hasSvnRemote;
+- (NSArray*) svnRemotes;
+- (BOOL) svnFetch:(NSString*)remoteName;
+- (BOOL) svnRebase:(NSString*)remoteName;
+- (BOOL) svnDcommit:(NSString*)commitURL;
 
 - (NSFileHandle*) handleForCommand:(NSString*) cmd;
 - (NSFileHandle*) handleForArguments:(NSArray*) args;
@@ -130,6 +147,8 @@ static NSString * PBStringFromBranchFilterType(PBGitXBranchFilterType type) {
 // for the scripting bridge
 - (void)findInModeScriptCommand:(NSScriptCommand *)command;
 
+- (NSMenu *) menu;
++(bool)isLocalBranch:(NSString *)branch branchNameInto:(NSString **)name;
 
 @property (assign) BOOL hasChanged;
 @property (readonly) PBGitWindowController *windowController;

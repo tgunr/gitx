@@ -9,6 +9,7 @@
 #import "PBGitWindowController.h"
 #import "PBGitHistoryController.h"
 #import "PBGitCommitController.h"
+#import "PBGitDefaults.h"
 #import "Terminal.h"
 #import "PBCloneRepsitoryToSheet.h"
 #import "PBCommitHookFailedSheet.h"
@@ -132,6 +133,14 @@
 		[[NSAlert alertWithError:error] beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+	if ([PBGitDefaults refreshAutomatically]) {
+		[contentController refresh:nil];
+	}
+}
+
 - (void)showErrorSheetTitle:(NSString *)title message:(NSString *)message arguments:(NSArray *)arguments output:(NSString *)output
 {
 	NSString *command = [arguments componentsJoinedByString:@" "];
@@ -206,13 +215,38 @@
 	[sidebarController setHistorySearch:searchString mode:mode];
 }
 
+- (IBAction) changeLayout:(id)sender{
+	NSSplitView *sp=nil;
+	switch ([sender selectedSegment]) {
+		case 0:
+			sp=splitView;
+			break;
+		case 1:
+			sp=[[sidebarController historyViewController] historySplitView];
+			break;
+	}
+	NSLog(@"sp=%@",sp);
+	if(sp!=nil)	{
+		[self collapseSplitView:sp show:[sender isSelectedForSegment:[sender selectedSegment]]];	
+	}
+}
 
+- (void)collapseSplitView:(NSSplitView *)sp show:(BOOL)show{
+	NSView *clipview = [[sp subviews] objectAtIndex:0];
+	NSRect clipFrame = [clipview frame];
+
+	if ([sp isVertical]) {
+		clipFrame.size.width = kGitSplitViewMinWidth * show;
+	}else{
+		clipFrame.size.height = kGitSplitViewMinWidth * show;
+	}
+
+	[[clipview animator] setFrame:clipFrame];
+	[sp adjustSubviews];
+}
 
 #pragma mark -
 #pragma mark SplitView Delegates
-
-#define kGitSplitViewMinWidth 150.0f
-#define kGitSplitViewMaxWidth 300.0f
 
 #pragma mark min/max widths while moving the divider
 

@@ -9,9 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import "PBGitRepository.h"
 
+#define kGitSplitViewMinWidth 150.0f
+#define kGitSplitViewMaxWidth 300.0f
+
 @class PBViewController, PBGitSidebarController, PBGitCommitController;
 
-@interface PBGitWindowController : NSWindowController {
+@interface PBGitWindowController : NSWindowController /*<NSWindowDelegate>*/{
 	__weak PBGitRepository* repository;
 
 	PBViewController *contentController;
@@ -24,8 +27,6 @@
 
 	IBOutlet NSTextField *statusField;
 	IBOutlet NSProgressIndicator *progressIndicator;
-
-	PBViewController* viewController;
 
 	IBOutlet NSToolbarItem *terminalItem;
 	IBOutlet NSToolbarItem *finderItem;
@@ -41,6 +42,7 @@
 - (void)showMessageSheet:(NSString *)messageText infoText:(NSString *)infoText;
 - (void)showErrorSheet:(NSError *)error;
 - (void)showErrorSheetTitle:(NSString *)title message:(NSString *)message arguments:(NSArray *)arguments output:(NSString *)output;
+- (void)collapseSplitView:(NSSplitView *)sp show:(BOOL)show;
 
 - (IBAction) showCommitView:(id)sender;
 - (IBAction) showHistoryView:(id)sender;
@@ -48,6 +50,7 @@
 - (IBAction) openInTerminal:(id)sender;
 - (IBAction) cloneTo:(id)sender;
 - (IBAction) refresh:(id)sender;
+- (IBAction) changeLayout:(id)sender;
 
 - (void)setHistorySearch:(NSString *)searchString mode:(NSInteger)mode;
 

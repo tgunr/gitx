@@ -22,12 +22,39 @@
 #import "PBHistorySearchController.h"
 #import "PBGitRepositoryWatcher.h"
 
+#import "PBGitStash.h"
+#import "PBGitSubmodule.h"
+
 NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 
-@implementation PBGitRepository
+@interface PBGitRepository()
+@end
 
+
+
+@implementation PBGitRepository
+@synthesize stashController;
+@synthesize submoduleController;
+@synthesize resetController;
 @synthesize revisionList, branches, currentBranch, refs, hasChanged, config;
 @synthesize currentBranchFilter;
+
+- (NSMenu *) menu {
+	NSMenu *menu = [[NSMenu alloc] init];
+	NSMutableArray *items = [[NSMutableArray alloc] init];
+	[items addObjectsFromArray:[self.submoduleController menuItems]];
+	[items addObject:[NSMenuItem separatorItem]];
+	[items addObjectsFromArray:[self.stashController menu]];
+	[items addObject:[NSMenuItem separatorItem]];
+	[items addObjectsFromArray:[self.resetController menuItems]];
+	
+	for (NSMenuItem *item in items) {
+		[menu addItem:item];
+	}
+	
+	[menu setAutoenablesItems:YES];
+	return menu;
+}
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
@@ -117,7 +144,7 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 	NSURL* gitDirURL = [PBGitRepository gitDirForURL:[self fileURL]];
 	if (!gitDirURL) {
 		if (outError) {
-			NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ does not appear to be a git repository.", [self fileName]]
+			NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ does not appear to be a git repository.", [self fileURL]]
 																 forKey:NSLocalizedRecoverySuggestionErrorKey];
 			*outError = [NSError errorWithDomain:PBGitRepositoryErrorDomain code:0 userInfo:userInfo];
 		}
@@ -138,6 +165,10 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 	[self reloadRefs];
 	currentBranchFilter = [PBGitDefaults branchFilter];
 	revisionList = [[PBGitHistoryList alloc] initWithRepository:self];
+	
+	resetController = [[PBGitResetController alloc] initWithRepository:self];
+	stashController = [[PBStashController alloc] initWithRepository:self];
+	submoduleController = [[PBSubmoduleController alloc] initWithRepository:self];
 }
 
 - (void)close
@@ -285,8 +316,21 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 
 	[self willChangeValueForKey:@"refs"];
 	[self didChangeValueForKey:@"refs"];
+	
+	[self.stashController reload];
+	[self.submoduleController reload];
 
 	[[[self windowController] window] setTitle:[self displayName]];
+}
+
++(bool)isLocalBranch:(NSString *)branch branchNameInto:(NSString **)name
+{
+	NSScanner *scanner=[NSScanner scannerWithString:branch];
+	bool is=[scanner scanString:@"refs/heads/" intoString:NULL];
+	if(is && (name)){
+		*name=[branch substringFromIndex:[scanner scanLocation]];
+	}
+	return is;
 }
 
 - (void) lazyReload
@@ -890,6 +934,91 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 	return YES;
 }
 
+#pragma mark git svn commands
+
+/**
+ determines if the current repository has a git-svn configured remote
+ */
+- (BOOL) hasSvnRemote
+{
+    NSArray* remotes = [self svnRemotes];
+    return remotes && [remotes count] > 0;
+}
+
+/**
+ get a list of the svn remotes configured on this repository
+ */
+- (NSArray*) svnRemotes
+{
+    NSDictionary* configValues = [config listConfigValuesInDir:[self workingDirectory]];
+    NSMutableArray* remotes = [NSMutableArray array];
+    
+    for (NSString* key in configValues) {
+        NSArray* components = [key componentsSeparatedByString:@"."];
+        if ([components count] == 3 && 
+            [[components objectAtIndex:0] isEqualToString:@"svn-remote"] &&
+            [[components objectAtIndex:2] isEqualToString:@"url"]) {
+            
+            NSString* remoteName = [components objectAtIndex:1];
+            [remotes addObject:remoteName];
+        }
+    }
+    return [NSArray arrayWithArray:remotes];
+}
+
+/**
+ call `git svn fetch` with an optional remote name
+ 
+ remoteName can be NULL
+ */
+- (BOOL) svnFetch:(NSString*)remoteName
+{
+    int retval = 1;
+    NSArray* args = [NSArray arrayWithObjects:@"svn", @"fetch", remoteName, nil];
+    
+	NSString *description = [NSString stringWithFormat:@"Fetching all tracking branches from %@", remoteName ? remoteName : @"<default>"];
+	NSString *title = @"Fetching from svn remote";
+	[PBRemoteProgressSheet beginRemoteProgressSheetForArguments:args title:title description:description inRepository:self];
+    retval = 0;
+    
+	return retval == 0;
+}
+
+/**
+ call `git svn rebase` with an optional remote name
+ 
+ remoteName can be NULL
+ */
+- (BOOL) svnRebase:(NSString*)remoteName
+{
+    int retval = 1;
+    NSArray* args = [NSArray arrayWithObjects:@"svn", @"rebase", remoteName, nil];
+    
+	NSString *description = [NSString stringWithFormat:@"Rebasing all tracking branches from %@", remoteName ? remoteName : @"<default>"];
+	NSString *title = @"Pulling from svn remote (Rebase)";
+	[PBRemoteProgressSheet beginRemoteProgressSheetForArguments:args title:title description:description inRepository:self];
+    retval = 0;
+    
+	return retval == 0;
+}
+
+/**
+ call `git svn dcommit` with optional commitURL
+ 
+ commitURL can be NULL
+ */
+- (BOOL) svnDcommit:(NSString*)commitURL
+{
+    int retval = 1;
+    NSArray* args = [NSArray arrayWithObjects:@"svn", @"dcommit", commitURL, nil];
+    
+	NSString *description = [NSString stringWithFormat:@"Pushing commits to svn remote %@", commitURL ? commitURL : @"<default>"];
+	NSString *title = @"Pushing to svn remote (Dcommit)";
+	[PBRemoteProgressSheet beginRemoteProgressSheetForArguments:args title:title description:description inRepository:self];
+    retval = 0;
+    
+	return retval == 0;
+}
 
 #pragma mark GitX Scripting
 
@@ -1066,7 +1195,8 @@ NSString* PBGitRepositoryErrorDomain = @"GitXErrorDomain";
 
 - (NSString*) outputInWorkdirForArguments:(NSArray*) arguments
 {
-	return [PBEasyPipe outputForCommand:[PBGitBinary path] withArgs:arguments inDir: [self workingDirectory]];
+	NSString *output = [PBEasyPipe outputForCommand:[PBGitBinary path] withArgs:arguments inDir: [self workingDirectory]];
+	return [output length] > 0 ? output : nil;
 }
 
 - (NSString*) outputInWorkdirForArguments:(NSArray *)arguments retValue:(int *)ret

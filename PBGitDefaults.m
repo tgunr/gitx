@@ -18,6 +18,7 @@
 #define kConfirmPublicGists @"PBConfirmPublicGists"
 #define kPublicGist @"PBGistPublic"
 #define kShowWhitespaceDifferences @"PBShowWhitespaceDifferences"
+#define kRefreshAutomatically @"PBRefreshAutomatically"
 #define kOpenCurDirOnLaunch @"PBOpenCurDirOnLaunch"
 #define kShowOpenPanelOnLaunch @"PBShowOpenPanelOnLaunch"
 #define kShouldCheckoutBranch @"PBShouldCheckoutBranch"
@@ -29,6 +30,7 @@
 #define kHistorySearchMode @"PBHistorySearchMode"
 #define kSuppressedDialogWarnings @"Suppressed Dialog Warnings"
 
+
 @implementation PBGitDefaults
 
 + (void)initialize
@@ -39,19 +41,21 @@
     [defaultValues setObject:[NSNumber numberWithBool:YES]
                       forKey:kCommitMessageViewHasVerticalLine];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
-			  forKey:kEnableGist];
+					  forKey:kEnableGist];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
-			  forKey:kEnableGravatar];
+					  forKey:kEnableGravatar];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
-			  forKey:kConfirmPublicGists];
+					  forKey:kConfirmPublicGists];
 	[defaultValues setObject:[NSNumber numberWithBool:NO]
-			  forKey:kPublicGist];
+					  forKey:kPublicGist];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
-			  forKey:kShowWhitespaceDifferences];
+					  forKey:kShowWhitespaceDifferences];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
-			  forKey:kOpenCurDirOnLaunch];
+					  forKey:kRefreshAutomatically];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
-			  forKey:kShowOpenPanelOnLaunch];
+					  forKey:kOpenCurDirOnLaunch];
+	[defaultValues setObject:[NSNumber numberWithBool:YES]
+					  forKey:kShowOpenPanelOnLaunch];
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
 					  forKey:kShouldCheckoutBranch];
 	[defaultValues setObject:[NSNumber numberWithBool:NO]
@@ -96,9 +100,14 @@
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kPublicGist];
 }
 
-+ (BOOL)showWhitespaceDifferences
++ (BOOL) showWhitespaceDifferences
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kShowWhitespaceDifferences];
+}
+							  
++ (BOOL) refreshAutomatically
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kRefreshAutomatically];
 }
 
 + (BOOL)openCurDirOnLaunch

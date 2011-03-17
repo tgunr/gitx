@@ -15,6 +15,55 @@
 @implementation PBGitTree
 
 @synthesize sha, path, repository, leaf, parent;
+@synthesize filterPredicate;
+@synthesize filteredChildren;
+
+#pragma mark -
+#pragma mark get/set
+
+- (NSArray *) filteredChildren {
+	if (!filteredChildren) {
+		filteredChildren = [[NSMutableArray alloc] init];
+		[filteredChildren addObjectsFromArray:self.children];
+	}
+	return filteredChildren;
+}
+
+- (void) setFilterPredicate:(NSPredicate *) newPredicate {
+	if (newPredicate != filterPredicate) {
+		[filterPredicate release];
+		filterPredicate = [newPredicate retain];
+		
+		if (leaf) {
+			return;
+		}
+		
+		// initiate filtering
+		[filteredChildren removeAllObjects];
+		filteredChildren = [[NSMutableArray alloc] init];
+		
+		if (filterPredicate == nil) {
+			[filteredChildren addObjectsFromArray:self.children];
+		}
+
+		for (id item in self.children) {
+			[item setFilterPredicate:filterPredicate];
+			if (filterPredicate) {
+				if ([item leaf]) {
+					if ([filterPredicate evaluateWithObject:item]) {
+						[filteredChildren addObject:item];
+					}
+				} else {
+					if ([[item filteredChildren] count] > 0) {
+						[filteredChildren addObject:item];
+					}
+				}
+			}
+		}
+	}
+}
+
+#pragma mark -
 
 + (PBGitTree*) rootForCommit:(id) commit
 {
@@ -40,6 +89,7 @@
 
 - init
 {
+	filteredChildren = nil;
 	children = nil;
 	localFileName = nil;
 	leaf = YES;
@@ -61,16 +111,6 @@
 			return YES;
 	}
 	return NO;
-}
-
-- (BOOL)hasBinaryHeader:(NSString*)contents
-{
-	if (!contents)
-		return NO;
-
-	return [contents rangeOfString:@"\0"
-						   options:0
-							 range:NSMakeRange(0, ([contents length] >= 8000) ? 7999 : [contents length])].location != NSNotFound;
 }
 
 - (BOOL)hasBinaryAttributes
@@ -115,44 +155,110 @@
 	return [repository outputForArguments:[NSArray arrayWithObjects:@"show", [self refSpec], nil]];
 }
 
-- (NSString *) blame
+- (NSString *) blame:(NSError **)anError
 {
+	NSString *error=nil;
+	NSString *res=nil;
 	if (!leaf)
-		return [NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
+		error=[NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
 	
 	if ([self hasBinaryAttributes])
-		return [NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
+		error=[NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
 	
 	if ([self fileSize] > 52428800) // ~50MB
-		return [NSString stringWithFormat:@"%@ is too big to be displayed (%d bytes)", [self fullPath], [self fileSize]];
+		error=[NSString stringWithFormat:@"%@ is too big to be displayed (%d bytes)", [self fullPath], [self fileSize]];
 	
-	NSString *contents=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"blame", @"-p",  sha, @"--", [self fullPath], nil]];
+	if(error==nil){
+		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"blame", @"-p",  sha, @"--", [self fullPath], nil]];
+	}else{
+		if (anError != NULL) {
+			*anError = [NSError errorWithDomain:@"blame" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+		}
+	}
 	
-	if ([self hasBinaryHeader:contents])
-		return [NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
-	
-	
-	return contents;
+	return res;
 }
 
-- (NSString *) log:(NSString *)format
+- (NSString *) log:(NSString *)format error:(NSError **)anError
 {
+	NSString *error=nil;
+	NSString *res=nil;
 	if (!leaf)
-		return [NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
+		error=[NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
+	
+	if(error==nil){
+		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"log", [NSString stringWithFormat:@"--pretty=format:%@",format], @"--", [self fullPath], nil]];
+	}else{
+		if (anError != NULL) {
+			*anError = [NSError errorWithDomain:@"log" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+		}
+	}
+	
+	return res;
+}
+
+- (NSString *) diff:(NSString *)format error:(NSError **)anError
+{
+	NSString *error=nil;
+	NSString *res=nil;
+	if (!leaf)
+		error=[NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
 	
 	if ([self hasBinaryAttributes])
-		return [NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
+		error=[NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
 	
 	if ([self fileSize] > 52428800) // ~50MB
-		return [NSString stringWithFormat:@"%@ is too big to be displayed (%d bytes)", [self fullPath], [self fileSize]];
+		error=[NSString stringWithFormat:@"%@ is too big to be displayed (%d bytes)", [self fullPath], [self fileSize]];
+	
+	if(error==nil){
+		NSString *des=@"";
+		if(format==@"p") {
+			des=[NSString stringWithFormat:@"%@^",sha];
+		}else if(format==@"h") {
+			des=@"HEAD";
+		}else{
+			des=@"--";
+		}
+		res=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"diff", sha, des,[self fullPath], nil]];
+		if ([res length]==0) {
+			NSLog(@"--%@",[res length]);
+			if (anError != NULL) {
+				*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"No Diff",NSLocalizedDescriptionKey,nil]];
+			}
+		}else{
+			NSLog(@"--%@",[res substringToIndex:80]);
+		}
+	}else{
+		if (anError != NULL) {
+			*anError = [NSError errorWithDomain:@"diff" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+		}
+	}
 
-	NSString *contents=[repository outputInWorkdirForArguments:[NSArray arrayWithObjects:@"log", [NSString stringWithFormat:@"--pretty=format:%@",format], @"--", [self fullPath], nil]];
+	return res;
+}
+
+- (NSString *)textContents:(NSError **)anError
+{
+	NSString *error=nil;
+	NSString *res=nil;
+	if (!leaf)
+		error=[NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
 	
-	if ([self hasBinaryHeader:contents])
-		return [NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
+	if ([self hasBinaryAttributes])
+		error=[NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
 	
+	if ([self fileSize] > 52428800) // ~50MB
+		error=[NSString stringWithFormat:@"%@ is too big to be displayed (%d bytes)", [self fullPath], [self fileSize]];
 	
-	return contents;
+	if(error==nil){
+		res = [self contents];
+	}else{
+		if (anError != NULL) {
+			*anError = [NSError errorWithDomain:@"show" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:error,NSLocalizedDescriptionKey,nil]];
+		}
+	}
+
+	return res;
 }
 
 - (long long)fileSize
@@ -171,25 +277,6 @@
 	return _fileSize;
 }
 
-- (NSString *)textContents
-{
-	if (!leaf)
-		return [NSString stringWithFormat:@"This is a tree with path %@", [self fullPath]];
-
-	if ([self hasBinaryAttributes])
-		return [NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
-
-	if ([self fileSize] > 52428800) // ~50MB
-		return [NSString stringWithFormat:@"%@ is too big to be displayed (%d bytes)", [self fullPath], [self fileSize]];
-
-	NSString* contents = [self contents];
-
-	if ([self hasBinaryHeader:contents])
-		return [NSString stringWithFormat:@"%@ appears to be a binary file of %d bytes", [self fullPath], [self fileSize]];
-
-	return contents;
-}
-
 - (void) saveToFolder: (NSString *) dir
 {
 	NSString* newName = [dir stringByAppendingPathComponent:path];
@@ -199,7 +286,7 @@
 		NSData* data = [handle readDataToEndOfFile];
 		[data writeToFile:newName atomically:YES];
 	} else { // Directory
-		[[NSFileManager defaultManager] createDirectoryAtPath:newName attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:newName withIntermediateDirectories:YES attributes:nil error:nil];
 		for (PBGitTree* child in [self children])
 			[child saveToFolder: newName];
 	}
@@ -286,7 +373,7 @@
 - (void) finalize
 {
 	if (localFileName)
-		[[NSFileManager defaultManager] removeFileAtPath:localFileName handler:nil];
+		[[NSFileManager defaultManager] removeItemAtPath:localFileName error:nil];
 	[super finalize];
 }
 @end
