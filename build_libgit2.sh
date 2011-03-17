@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh 
 
 # build_libgit2.sh
 # GitX
@@ -9,6 +9,7 @@
 # based on: http://log.yeahrightkeller.com/post/270155578/run-script-while-cleaning-in-xcode
 
 buildAction () {
+	set -x
     echo "Building libgit2..."
 	if [[ -d .git ]]
 	then
@@ -17,7 +18,7 @@ buildAction () {
 		git submodule update
 		cd libgit2
 		rm -f libgit2.a
-		make CFLAGS="-arch i386 -arch ppc -arch x86_64"
+		make CFLAGS="-arch i386 -arch x86_64"
 		ranlib libgit2.a
 	else
 		echo "error: Not a git repository."
