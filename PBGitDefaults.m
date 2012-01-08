@@ -7,12 +7,14 @@
 //
 
 #import "PBGitDefaults.h"
+#import "PBHistorySearchController.h"
 
 #define kDefaultVerticalLineLength 50
 #define kCommitMessageViewVerticalLineLength @"PBCommitMessageViewVerticalLineLength"
 #define kCommitMessageViewHasVerticalLine @"PBCommitMessageViewHasVerticalLine"
 #define kEnableGist @"PBEnableGist"
 #define kEnableGravatar @"PBEnableGravatar"
+#define kGravatarStyle @"PBGravatarStyle"
 #define kConfirmPublicGists @"PBConfirmPublicGists"
 #define kPublicGist @"PBGistPublic"
 #define kShowWhitespaceDifferences @"PBShowWhitespaceDifferences"
@@ -20,11 +22,12 @@
 #define kShowOpenPanelOnLaunch @"PBShowOpenPanelOnLaunch"
 #define kShouldCheckoutBranch @"PBShouldCheckoutBranch"
 #define kRecentCloneDestination @"PBRecentCloneDestination"
-#define kSuppressAcceptDropRef @"PBSuppressAcceptDropRef"
 #define kShowStageView @"PBShowStageView"
 #define kOpenPreviousDocumentsOnLaunch @"PBOpenPreviousDocumentsOnLaunch"
 #define kPreviousDocumentPaths @"PBPreviousDocumentPaths"
 #define kBranchFilterState @"PBBranchFilter"
+#define kHistorySearchMode @"PBHistorySearchMode"
+#define kSuppressedDialogWarnings @"Suppressed Dialog Warnings"
 
 @implementation PBGitDefaults
 
@@ -53,6 +56,8 @@
 					  forKey:kShouldCheckoutBranch];
 	[defaultValues setObject:[NSNumber numberWithBool:NO]
                       forKey:kOpenPreviousDocumentsOnLaunch];
+	[defaultValues setObject:[NSNumber numberWithInteger:kGitXBasicSeachMode]
+                      forKey:kHistorySearchMode];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
 
@@ -74,6 +79,11 @@
 + (BOOL) isGravatarEnabled
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kEnableGravatar];
+}
+
++ (NSString *) gravatarStyle
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:kGravatarStyle];
 }
 
 + (BOOL) confirmPublicGists
@@ -121,16 +131,6 @@
 	[[NSUserDefaults standardUserDefaults] setObject:path forKey:kRecentCloneDestination];
 }
 
-+ (BOOL) suppressAcceptDropRef
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:kSuppressAcceptDropRef];
-}
-
-+ (void) setSuppressAcceptDropRef:(BOOL)suppress
-{
-	return [[NSUserDefaults standardUserDefaults] setBool:suppress forKey:kSuppressAcceptDropRef];
-}
-
 + (BOOL) showStageView
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kShowStageView];
@@ -169,5 +169,50 @@
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:state forKey:kBranchFilterState];
 }
+
++ (NSInteger)historySearchMode
+{
+	return [[NSUserDefaults standardUserDefaults] integerForKey:kHistorySearchMode];
+}
+
++ (void)setHistorySearchMode:(NSInteger)mode
+{
+	[[NSUserDefaults standardUserDefaults] setInteger:mode forKey:kHistorySearchMode];
+}
+
+
+
+// Suppressed Dialog Warnings
+//
+// Represents dialogs where the user has checked the "Do not show this message again" checkbox.
+// Keep these together in an array to make it easier to reset all the warnings.
+
++ (NSSet *)suppressedDialogWarnings
+{
+	NSSet *suppressedDialogWarnings = [NSSet setWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:kSuppressedDialogWarnings]];
+	if (suppressedDialogWarnings == nil)
+		suppressedDialogWarnings = [NSSet set];
+
+	return suppressedDialogWarnings;
+}
+
++ (void)suppressDialogWarningForDialog:(NSString *)dialog
+{
+	NSSet *suppressedDialogWarnings = [[self suppressedDialogWarnings] setByAddingObject:dialog];
+
+	[[NSUserDefaults standardUserDefaults] setObject:[suppressedDialogWarnings allObjects] forKey:kSuppressedDialogWarnings];
+}
+
++ (BOOL)isDialogWarningSuppressedForDialog:(NSString *)dialog
+{
+	return [[self suppressedDialogWarnings] containsObject:dialog];
+}
+
++ (void)resetAllDialogWarnings
+{
+	[[NSUserDefaults standardUserDefaults] setObject:nil forKey:kSuppressedDialogWarnings];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 @end

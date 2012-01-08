@@ -107,7 +107,7 @@ var gistie = function() {
 	var t = new XMLHttpRequest();
 	t.onreadystatechange = function() {
 		if (t.readyState == 4 && t.status >= 200 && t.status < 300) {
-			if (m = t.responseText.match(/gist: ([a-f0-9]+)/))
+			if (m = t.responseText.match(/<a href="\/gists\/([a-f0-9]+)\/edit">/))
 				notify("Code uploaded to gistie <a target='_new' href='http://gist.github.com/" + m[1] + "'>#" + m[1] + "</a>", 1);
 			else {
 				notify("Pasting to Gistie failed :(.", -1);
@@ -116,7 +116,7 @@ var gistie = function() {
 		}
 	}
 
-	t.open('POST', "http://gist.github.com/gists");
+	t.open('POST', "https://gist.github.com/gists");
 	t.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	t.setRequestHeader('Accept', 'text/javascript, text/html, application/xml, text/xml, */*');
 	t.setRequestHeader('Content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
@@ -128,22 +128,28 @@ var gistie = function() {
 	}
 }
 
-var setGravatar = function(email, image) {
-	if (Controller && !Controller.isReachable_("www.gravatar.com"))
-		return;
+var gravatarStyle = function () {
+    return Controller.gravatarStyle_() || "wavatar";
+}
 
+var gravatarUrl = function (style, hash) {
+    if (style == "unicornify") {
+        return "http://unicornify.appspot.com/avatar/"+hash+"?s=60";
+    }
+    return "http://www.gravatar.com/avatar/"+hash+"?d="+style+"&s=60";
+}
+
+var setGravatar = function(email, image) {
 	if(Controller && !Controller.isFeatureEnabled_("gravatar")) {
 		image.src = "";
 		return;
 	}
-
+    var d = gravatarStyle();
 	if (!email) {
-		image.src = "http://www.gravatar.com/avatar/?d=wavatar&s=60";
+		image.src = gravatarUrl(d,"");
 		return;
 	}
-
-	image.src = "http://www.gravatar.com/avatar/" +
-		hex_md5(email.toLowerCase().replace(/ /g, "")) + "?d=wavatar&s=60";
+	image.src = gravatarUrl(d,hex_md5(email.toLowerCase().replace(/ /g, "")));
 }
 
 var selectCommit = function(a) {
@@ -164,7 +170,7 @@ var showRefs = function() {
 		refs.innerHTML = "";
 		for (var i = 0; i < commit.refs.length; i++) {
 			var ref = commit.refs[i];
-			refs.innerHTML += '<span class="refs ' + ref.type() + (commit.currentRef == ref.ref ? ' currentBranch' : '') + '">' + ref.shortName() + '</span>';
+			refs.innerHTML += '<span class="refs ' + ref.type() + (commit.currentRef == ref.ref ? ' currentBranch' : '') + '">' + ref.shortName() + '</span> ';
 		}
 	} else
 		refs.parentNode.style.display = "none";
@@ -221,6 +227,8 @@ var loadCommit = function(commitObject, currentRef) {
 }
 
 var showDiff = function() {
+
+	$("files").innerHTML = "";
 
 	// Callback for the diff highlighter. Used to generate a filelist
 	var newfile = function(name1, name2, id, mode_change, old_mode, new_mode) {
@@ -295,6 +303,25 @@ var enableFeatures = function()
 	enableFeature("gist", $("gist"))
 	enableFeature("gravatar", $("author_gravatar").parentNode)
 	enableFeature("gravatar", $("committer_gravatar").parentNode)
+	if(Controller && Controller.isFeatureEnabled_("gravatar")) {
+        setGravatar(commit.author_email, $("author_gravatar"));
+		setGravatar(commit.committer_email, $("committer_gravatar"));
+    }
+}
+
+/*
+Just add gitx.ticketurl to your repositories .git/config
+ 
+[gitx]
+ ticketurl = "http://trac.domain.com/ticket/*"
+
+*/
+var formatTicketUrls = function (html) {
+    var ticketUrl = Controller.getConfig_("gitx.ticketurl");
+    if (ticketUrl) {
+        return html.replace(/#([0-9]+)/g,'<a href="'+ticketUrl.replace("*","$1")+'" target="blank">#$1</a>');
+    }
+    return html;
 }
 
 var loadCommitDetails = function(data)
@@ -326,7 +353,7 @@ var loadCommitDetails = function(data)
 		$("committerDate").parentNode.style.display = "none";
 	}
 
-	$("message").innerHTML = commit.message.replace(/\n/g,"<br>");
+	$("message").innerHTML = formatTicketUrls(commit.message.replace(/\n/g,"<br>"));
 
 	if (commit.diff.length < 200000)
 		showDiff();
